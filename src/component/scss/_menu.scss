@@ -1,0 +1,54 @@
+nav {
+    height: 50px;
+    top: 0;
+    width: 100vw;
+    color: #fff;
+    position: fixed;
+    opacity: 0.9;
+    z-index: 2;
+
+    .wrapper {
+        height: 100%;
+        margin: 0 5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        ul {
+            display: flex;
+
+            li {
+                padding: 0 1rem;
+                padding-bottom: 0.3rem;
+
+                a {
+                    color: $mainLight;
+                    text-decoration: none;
+                    width: 100%;
+                    padding-bottom: 0.5rem;
+
+
+                    &:hover {
+                        color: $mainOrange;
+                    }
+
+                    &.active {
+                        color: $mainOrange;
+                        border-bottom: 4px solid #fff;
+                        width: 100%;
+                        z-index: 2;
+                    }
+
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    color: $mainOrange;
+                    border-bottom: 4px solid #fff;
+                    z-index: 2;
+                }
+            }
+        }
+    }
+
+}
