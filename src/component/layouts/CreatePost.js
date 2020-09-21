@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import img from "../img/showcase.jpg";
 import { connect } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { createPost, fetchPost } from "../../actions/posts";
 
 class CreatePost extends Component {
   state = {
     body: "",
-    file: null,
+    image: null,
   };
 
   resetState = () => {
     this.setState({
       body: "",
-      file: null,
+      image: null,
     });
   };
   openModal = () => {
@@ -22,11 +22,13 @@ class CreatePost extends Component {
   closeModal = () => {
     this.resetState();
     document.getElementById("createModal").style.display = "none";
+    document.querySelector(".image-group").style.display = "none";
   };
 
   clickOutside = (e) => {
-    if (e.target == document.getElementById("createModal")) {
+    if (e.target === document.getElementById("createModal")) {
       document.getElementById("createModal").style.display = "none";
+      document.querySelector(".image-group").style.display = "none";
       this.resetState();
     }
   };
@@ -34,12 +36,16 @@ class CreatePost extends Component {
   onChange = (e) => this.setState({ body: e.target.value });
 
   readURL = (e) => {
+    // this.setState({
+    //   image: e.target.files[0],
+    // });
     let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = (e) => {
       this.setState({
-        file: e.target.result,
+        image: e.target.result,
       });
+      document.querySelector(".image-group").style.display = "block";
     };
 
     // let formData = new FormData();
@@ -48,13 +54,14 @@ class CreatePost extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.createPost(this.state);
+    this.closeModal();
   };
 
   render() {
     window.addEventListener("click", this.clickOutside);
 
-    const { body, file } = this.state;
+    const { body, image } = this.state;
 
     return (
       <>
@@ -64,25 +71,31 @@ class CreatePost extends Component {
             <input
               type="text"
               name="body"
+              autoComplete="false"
               onFocus={this.openModal}
               placeholder="Start a post"
             />
           </div>
           <div className="postIcon">
-            <p>
+            <p onClick={this.openModal}>
               <i className="fa fa-camera"></i> Photo
             </p>
-            <p>
+            <p onClick={this.openModal}>
               <i className="fa fa-video-camera"></i> Video
             </p>
-            <p>
+            <p onClick={this.openModal}>
               <i className="fa fa-file"></i> Document
             </p>
           </div>
         </form>
         <div id="createModal" className="modal">
           <div className="modal-content">
-            <form method="post" onSubmit={this.onSubmit} type="post">
+            <form
+              method="post"
+              encType="multipart/file-data"
+              onSubmit={this.onSubmit}
+              type="post"
+            >
               <div className="modal-title">
                 <h2>Create a post</h2>
                 <h1>
@@ -95,23 +108,24 @@ class CreatePost extends Component {
                     <textarea
                       placeholder="What do you want to talk about?"
                       value={body}
+                      autoComplete="false"
                       onChange={this.onChange}
                     />
                   </div>
 
-                  <div className="form-group image-group" id="id_image_group">
+                  <div
+                    className="form-group image-group"
+                    onClick={() => this.postInput.click()}
+                  >
                     <img
-                      className="img-fluid image"
-                      src={file}
-                      id="id_image_display"
-                      onClick={() => this.fileInput.click()}
+                      className="img-fluid image image-file"
+                      src={image}
+                      alt="Post"
                     />
                     <div className="middle">
                       <i
                         className="fa fa-camera"
-                        name="image"
-                        id="id_image_file"
-                        onClick={() => this.fileInput.click()}
+                        onClick={() => this.postInput.click()}
                       ></i>
                     </div>
                   </div>
@@ -121,15 +135,20 @@ class CreatePost extends Component {
                       type="file"
                       name="image"
                       style={{ display: "none" }}
-                      id="id_image_file"
                       accept="image/*"
                       onChange={this.readURL}
-                      ref={(fileInput) => (this.fileInput = fileInput)}
+                      ref={(postInput) => (this.postInput = postInput)}
                     />
                   </div>
                 </div>
               </div>
-              <button type="submit">Post</button>
+              <div className="modal-footer">
+                <i
+                  className="fa fa-camera"
+                  onClick={() => this.postInput.click()}
+                ></i>
+                <button type="submit">Post</button>
+              </div>
             </form>
           </div>
         </div>
@@ -137,4 +156,4 @@ class CreatePost extends Component {
     );
   }
 }
-export default connect(null, { createPost })(CreatePost);
+export default connect(null, { createPost, fetchPost })(CreatePost);

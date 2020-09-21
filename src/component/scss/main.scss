@@ -1,43 +1,45 @@
-@import 'config';
-@import 'utilities';
-@import 'form';
-@import 'menu';
+@import "config";
+@import "form";
+@import "menu";
+@import "utilities";
 
 *,
 *::before,
 *::after {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  position: relative;
 }
 
 html {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 body {
-    font-family: 'Oswald', sans-serif !important;
-    height: 100%;
-    font-size: 1rem;
-    line-height: 1.6;
-    background: $darkBg;
-    color: $mainDark;
+  font-family: "Oswald", sans-serif !important;
+  height: 100%;
+  font-size: 1rem;
+  line-height: 1.6;
+  background: #aaa;
+  color: $mainDark;
 }
 
-
 a {
-    text-decoration: none;
-    outline: none;
-
+  text-decoration: none;
+  outline: none;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 img {
-    width: 100%;
+  width: 100%;
 }
 
 h1,
@@ -46,418 +48,910 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 300;
-    line-height: 1.2;
-}
-
-// Landing
-.container {
-    min-width: 1100px;
-    margin: 6rem 5rem 0 5rem;
-    overflow: hidden;
+  font-weight: 300;
+  line-height: 1.2;
 }
 
 .landing {
-    height: 100vh;
+
+  height: 100vh;
+  @include flex;
+  position: relative;
+  background: url(../img/showcase2.jpg) no-repeat center center/cover;
+  overflow: hidden;
+
+  .overlay {
+    @include overlay;
+  }
+
+  .showcase-inner {
+    color: $mainLight;
+    z-index: 3 !important;
+    width: 100%;
+    height: 100%;
     @include flex;
-    position: relative;
-    background: url(../img/showcase2.jpg)no-repeat center center/cover;
-    overflow: hidden;
 
-    .overlay {
-        @include overlay;
+    .buttons {
+      display: inline-flex;
+
+      .btn-primary {
+        width: 100px;
+        margin-left: 0.8rem;
+      }
     }
+  }
+}
 
-    .showcase-inner {
-        color: $mainLight;
-        z-index: 3 !important;
-        width: 100%;
-        height: 100%;
-        @include flex;
+.hideNav {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+}
 
-        .buttons {
-            display: inline-flex;
-
-            .btn-primary {
-                width: 100px;
-                margin-left: 0.8rem;
-            }
-        }
-    }
-
+.showNav {
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
 }
 
 .profile-page {
-    width: 90%;
-    max-width: 700px;
-    margin: 6rem auto 0;
-    border-radius: 4px;
+  width: 90%;
+  max-width: 700px;
+  margin: 6rem auto 0;
+  border-radius: 4px;
 
+  .profile-inner {
+    width: 100%;
 
+    .user-info {
+      background: lighten($color: #aaa, $amount: 15%);
+      border-radius: 4px;
 
-    .profile-inner {
+      .bg {
+        height: 230px;
+        width: 100%;
+        background: lightblue;
+        border-radius: 4px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 4px;
+        }
+      }
+
+      .access {
+        display: flex;
+
+        .edit-dp {
+          flex: 1;
+
+          .dp {
+            margin: -50px 0 20px 20px;
+            height: 100px;
+            border: 3px solid #fff;
+            width: 100px;
+            background: $mainGrey;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 1px 2px 5px $mainGrey;
+
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
+          }
+        }
+
+        .edit-profile {
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          padding: 0.9rem;
+
+          p {
+            font-size: 1rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.5s ease-out;
+            padding: 0rem 1rem;
+            border-radius: 20px;
+            height: 2rem;
+            padding-top: 2px;
+
+            &:hover {
+              background: lighten($color: $mainBlue, $amount: 40%);
+            }
+
+            .fa {
+              font-size: 1.4rem;
+              color: $mainBlue;
+              margin-right: 0.2rem;
+            }
+          }
+        }
+      }
+
+      .wrapper {
+        display: flex;
+        flex-direction: row;
+        padding: 0 1.2rem;
         width: 100%;
 
-        .user-info {
-            background: $mainLight;
-            border-radius: 4px;
+        .user-details {
+          flex: 1;
 
+          h4 {
+            font-size: 1.5rem;
+            color: $mainDark;
+            margin-bottom: 0.2rem;
+          }
 
-            .bg {
-                height: 120px;
-                width: 100%;
-                background: lightblue;
-                border-radius: 4px;
+          p {
+            line-height: 1.4;
+            font-size: 1rem;
+            color: $mainGrey;
+          }
 
+          .footer {
+            display: flex;
+            margin-bottom: 0.3rem;
+
+            p {
+              font-size: 1.2rem;
+              padding: 0.3rem;
+              cursor: pointer;
+              color: $mainBlue;
+              font-weight: 600;
+
+              &:hover {
+                background: lighten($color: $mainBlue, $amount: 40%);
+                border-radius: 20px;
+                text-align: center;
+              }
             }
-
-            .access {
-
-                display: flex;
-
-                .edit-dp {
-                    flex: 1;
-
-                    .dp {
-                        margin: -50px 0 20px 20px;
-                        height: 100px;
-                        border: 3px solid #fff;
-                        width: 100px;
-                        background: $mainGrey;
-                        border-radius: 50%;
-                        z-index: 2;
-                    }
-                }
-
-
-                .edit-profile {
-                    flex: 1;
-                    display: flex;
-                    justify-content: baseline;
-                    padding: 0.9rem;
-
-                    button {
-                        padding: 0.2rem 1rem;
-                        height: 2rem;
-                        font-size: 1rem;
-                        border-radius: 4px;
-                        border: 2px solid $mainGrey;
-                        background: 0;
-                        color: $mainGrey;
-                        margin-right: 2rem;
-                        cursor: pointer;
-                        @include easeOut;
-
-                        &:hover {
-                            background: $mainGrey;
-                            color: $mainLight;
-                            border: $mainLight;
-                            border: 2px solid $mainGrey;
-
-                        }
-                    }
-
-                    p {
-                        font-size: 1.2rem;
-                        color: $mainGrey;
-                        cursor: pointer;
-                        @include easeOut;
-                        padding: 0.3rem 0.7rem;
-                        border-radius: 20px;
-                        text-align: center;
-
-                        &:hover {
-                            background: lighten($color: $mainBlue, $amount: 40%);
-                        }
-
-
-                        .fa {
-                            font-size: 1.4rem;
-                            color: $mainBlue;
-                            margin-right: 0.2rem;
-                        }
-                    }
-
-                }
-
-            }
-
-
-            .wrapper {
-                display: flex;
-                flex-direction: row;
-                padding: 0 1.2rem;
-                width: 100%;
-
-                .user-details {
-                    flex: 1;
-
-                    h4 {
-                        font-size: 1.5rem;
-                        color: $mainDark;
-                        margin-bottom: 0.2rem;
-                    }
-
-                    p {
-                        line-height: 1.4;
-                        font-size: 1rem;
-                        color: $mainGrey;
-
-                    }
-
-                    .footer {
-                        display: flex;
-                        margin-bottom: 0.3rem;
-
-                        p {
-                            font-size: 1.2rem;
-                            padding: 0.3rem;
-                            cursor: pointer;
-                            color: $mainBlue;
-                            font-weight: 600;
-
-                            &:hover {
-                                background: lighten($color: $mainBlue, $amount: 40%);
-                                border-radius: 20px;
-                                text-align: center;
-                            }
-
-                        }
-
-                    }
-                }
-
-                .profile-details {
-                    flex: 1;
-                    padding: 0 1.3rem;
-
-                    p {
-                        color: $mainGrey;
-                        font-size: 0.9rem;
-                        padding-left: 0.5rem;
-                        margin-bottom: 0.5rem;
-
-                        .fa {
-                            margin-right: 0.5rem;
-                            font-size: 1.2rem;
-                        }
-
-                    }
-
-
-
-                }
-            }
-
+          }
         }
 
+        .profile-details {
+          flex: 1;
+          padding: 0 1.3rem;
+          display: flex;
+          justify-content: flex-end;
+
+          p {
+            color: $mainGrey;
+            font-size: 0.9rem;
+            padding-left: 0.5rem;
+            margin-bottom: 0.5rem;
+
+            .fa {
+              margin-right: 0.5rem;
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+
+      @media screen and(max-width: 768px) {
+        margin-top: 100px;
+
+        .user-details {
+          h4 {
+            font-size: 1rem;
+          }
+        }
+
+        .edit-profile {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        .bg {
+          height: 170px;
+        }
+
+        .wrapper {
+          .profile-details {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .experience {
+    margin-top: 1rem;
+    color: $mainGrey;
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    background: lighten($color: #aaa, $amount: 15%);
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+
+      .fa {
+        @include easeOut;
+        cursor: pointer;
+        padding: 0.7rem;
+        border-radius: 50%;
+        color: $mainBlue;
+        font-size: 1rem;
+
+        &:hover {
+          background: lighten($color: $mainBlue, $amount: 40%);
+        }
+      }
+
+      h4 {
+        font-size: 1.5rem;
+      }
     }
 
-    .experience {
+    .body {
+      display: flex;
+      flex-direction: row;
+      margin-top: 2.5rem;
+
+      &:hover .content-title .fa {
+        display: inline-block;
+      }
+
+      .icon {
+        flex: 2;
+        margin: 0.4rem;
+        text-align: center;
+
+        .fa {
+          font-size: 5rem;
+          color: rgba(5, 108, 5, 0.639);
+        }
+      }
+
+      .content {
+        flex: 6;
+        border-bottom: 2px solid $mainGrey;
+        padding-bottom: 1rem;
+
+        &-title {
+          display: flex;
+          justify-content: space-between;
+          color: $mainDark;
+          font-size: 1.2rem;
+          margin-bottom: 0.3rem;
+
+          .fa {
+            color: $mainBlue;
+            font-size: 1.4rem;
+            display: none;
+            cursor: pointer;
+          }
+        }
+
+        &-body {
+          font-size: 0.9rem;
+          color: $mainGrey;
+          line-height: 1.2;
+
+          .job {
+            &-title {
+              color: $mainDark;
+              font-size: 1rem;
+            }
+
+            &-summary {
+              margin-top: 0.5rem;
+              color: $mainDark;
+              line-height: 1.2;
+              width: 80%;
+              margin-bottom: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    @media screen and(max-width: 768px) {
+      .body {
+        margin-top: 0.5rem;
+
+        .content {
+          padding-bottom: 0rem;
+        }
+      }
+    }
+  }
+
+  .education {
+    margin-top: 0.9rem;
+    background: lighten($color: #aaa, $amount: 15%);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+
+      .fa {
+        margin-left: 0.5rem;
+      }
+
+      div {
+        @include easeOut;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+
+      h4 {
+        font-size: 1.5rem;
+      }
+
+      .fa {
+        color: $mainOrange;
+        cursor: pointer;
+        @include easeOut;
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: row;
+      margin-top: 2.5rem;
+
+      &:hover .content-title .fa {
+        display: inline-block;
+      }
+
+      .icon {
+        flex: 2;
+        margin: 0.4rem;
+        text-align: center;
+
+        .fa {
+          font-size: 5rem;
+          color: rgba(5, 108, 5, 0.639);
+        }
+      }
+
+      .content {
+        flex: 6;
+        border-bottom: 2px solid $mainGrey;
+        padding-bottom: 1rem;
+
+        &-title {
+          display: flex;
+          justify-content: space-between;
+          color: $mainDark;
+          font-size: 1.2rem;
+          margin-bottom: 0.3rem;
+
+          .fa {
+            color: $mainOrange;
+            font-size: 1.4rem;
+            display: none;
+            cursor: pointer;
+          }
+        }
+
+        &-body {
+          font-size: 0.9rem;
+          color: $mainGrey;
+          line-height: 1.2;
+
+          .job {
+            &-title {
+              color: $mainDark;
+              font-size: 1rem;
+            }
+
+            &-summary {
+              margin-top: 0.5rem;
+              color: $mainDark;
+              line-height: 1.2;
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
+
+    @media screen and(max-width: 768px) {
+      .body {
         margin-top: 1rem;
-        color: $mainGrey;
-        border-radius: 4px;
-        padding: 1rem 1.2rem;
-        background: $mainLight;
+
+        .content {
+          padding-bottom: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.container {
+  max-width: 1100px;
+  margin: 100px auto 20px;
+  width: 100%;
+
+  .title {
+
+    width: 95%;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 3rem;
+      color: $mainBlue;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+  }
+
+  .profile {
+    
+    .spinner {
+      width: 100px;
+      margin: 5rem auto;
+    }
+  
+    .dev-item {
+      width: 95%;
+      background: #ccc;
+      height: auto;
+      display: flex;
+      overflow: hidden;
+      margin: 1rem auto;
+      align-items: center;
+      padding: 0.7rem;
+  
+      .dp {
+        height: 200px;
+        width: 200px;
+        padding: 0.7rem;
+        border-radius: 50%;
+  
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 2px solid $mainGrey;
+          @include easeOut;
+          cursor: pointer;
+  
+          &:hover {
+            border: 2px solid $mainDark;
+          }
+        }
+      }
+  
+      .info {
+        margin-left: 1.5rem;
+  
+        h2 {
+          font-weight: bold;
+          line-height: 1.4;
+          font-size: 1.8rem;
+        }
+  
+        h3 {
+          line-height: 1.4;
+          margin-bottom: 0.2rem;
+        }
+  
+        button {
+          font-size: 1rem;
+  
+          &:hover {
+            background: $mainGrey;
+            color: $mainLight;
+          }
+        }
+      }
+  
+      @media screen and(max-width:768px) {
+        @include flex;
+  
+        .dp {
+          height: 150px;
+          width: 150px
+        }
+  
+        .info {
+          margin: 0.5rem;
+  
+          h2 {
+            line-height: 1.2;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+          }
+  
+          h3 {
+            line-height: 1.2;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+          }
+  
+        }
+      }
+    }
+  }
 
 
-        .title {
-            display: flex;
-            justify-content: space-between;
+  @media screen and(max-width:768px) {
+    margin-top: 100px;
+    margin-bottom: 50px;
 
-            div {
-                @include easeOut;
-                cursor: pointer;
+    .title {
 
-                &:hover {
-                    transform: scale(1.2);
-                }
+      h2 {
+        font-size: 2rem;
+        color: $mainBlue;
+        margin-bottom: 0.5rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.developer {
+  width: 95%;
+
+  a>button {
+    font-size: 1rem;
+
+    &:hover {
+      background: $mainGrey;
+      color: $mainLight;
+    }
+
+    @media screen and(max-width:768px) {
+      display: none;
+    }
+  }
+
+  .dev- {
+    &info {
+      color: #333;
+      padding: 2rem 0rem;
+      margin: 1rem 0rem;
+      width: 100%;
+      background: #ccc;
+      @include flex;
+
+      .dp {
+        width: 250px;
+        height: 250px;
+        margin: 1rem;
+
+        @media screen and(max-width:768px) {
+          width: 200px;
+          height: 200px;
+          margin: 0.2rem;
+
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+
+      }
+
+      h1 {
+        font-weight: bold;
+        font-size: 2rem;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        margin: 1rem 0;
+
+        @media screen and(max-width:768px) {
+          margin: 0.5rem;
+        }
+
+      }
+
+      h2 {
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+
+        @media screen and(max-width:768px) {
+          margin: 0.5rem;
+        }
+      }
+
+      h4 {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+
+        @media screen and(max-width:768px) {
+          margin: 0.5rem;
+        }
+      }
+
+      .icons {
+        margin: 1rem;
+
+        @media screen and(max-width:768px) {
+          margin-bottom: 0.5rem;
+        }
+
+
+        a {
+          text-decoration: none;
+          color: #333;
+          padding: 0 0.7rem;
+          font-size: 3rem;
+          cursor: pointer;
+
+          .fa {
+            text-decoration: none;
+
+            &:hover {
+              color: $mainTitle;
+              @include easeOut;
             }
+          }
+        }
 
-            h4 {
-                font-size: 1.5rem;
-            }
+      }
+    }
 
-            .fa {
-                color: $mainOrange;
-                cursor: pointer;
-                @include easeOut;
+    &about {
+      border: 1px solid $mainLight;
+      padding: 2rem;
+      background: lighten($color: #aaa, $amount: 15%);
 
-            }
+      .title {
+        text-align: center;
+
+        h2 {
+          font-size: 1.5rem;
+          color: $mainTitle;
+        }
+      }
+
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 49% 49%;
+    grid-gap: 1rem;
+    margin: 1rem 0rem;
+
+    @media screen and(max-width:768px) {
+      grid-template-columns: 100%;
+    }
+
+    .dev- {
+
+      &experience,
+      &education {
+        background: lighten($color: #aaa, $amount: 15%);
+        padding: 2rem 0.7rem;
+        border: 1px solid $mainLight;
+
+        h4 {
+          padding: 0.5rem 0.7rem;
+          color: #333;
+        }
+
+        .title>h2 {
+          color: $mainTitle;
+          font-size: 1.5rem;
+          margin: 0;
         }
 
         .body {
-            display: flex;
-            flex-direction: row;
-            margin-top: 2.5rem;
+          padding: 0.5rem;
+          color: #333;
+          margin-top: 0.7rem;
 
-            &:hover .content-title .fa {
-                display: inline-block;
-            }
+          h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+          }
 
-            .icon {
-                flex: 2;
-                margin: 0.4rem;
-                text-align: center;
+          p {
+            line-height: 1.4;
+            padding: 0.2rem 0.7rem;
+            text-align: left;
+          }
 
-                .fa {
-                    font-size: 5rem;
-                    color: rgba(5, 108, 5, 0.639);
-                }
-            }
+          border-bottom: 1px solid $mainLight;
+        }
 
-            .content {
-
-                flex: 6;
-                border-bottom: 2px solid $mainGrey;
-                padding-bottom: 1rem;
-
-                &-title {
-                    display: flex;
-                    justify-content: space-between;
-                    color: $mainDark;
-                    font-size: 1.2rem;
-                    margin-bottom: 0.3rem;
-
-                    .fa {
-                        color: $mainOrange;
-                        font-size: 1.4rem;
-                        display: none;
-                        cursor: pointer;
-
-                    }
-                }
-
-                &-body {
-                    font-size: 0.9rem;
-                    color: $mainGrey;
-                    line-height: 1.2;
-
-                    .job {
-                        &-title {
-                            color: $mainDark;
-                            font-size: 1rem;
-                        }
-
-                        &-summary {
-                            margin-top: 0.5rem;
-                            color: $mainDark;
-                            line-height: 1.2;
-                            width: 80%;
-                            margin-bottom: 1rem;
-                        }
-                    }
-                }
-
-
-            }
+        .body:last-child {
+          border-bottom: none;
 
         }
+      }
     }
-
-    .education {
-        margin-top: 0.9rem;
-        background: $mainLight;
-        border-radius: 4px;
-        padding: 1rem 1.2rem;
-        margin-bottom: 1rem;
-
-        .title {
-            display: flex;
-            justify-content: space-between;
-
-            .fa {
-                margin-left: 0.5rem;
-            }
-
-            div {
-                @include easeOut;
-                cursor: pointer;
-
-                &:hover {
-                    transform: scale(1.2);
-                }
-            }
+  }
+}
 
 
-
-
-            h4 {
-                font-size: 1.5rem;
-            }
-
-            .fa {
-                color: $mainOrange;
-                cursor: pointer;
-                @include easeOut;
-
-            }
-        }
-
-        .body {
-            display: flex;
-            flex-direction: row;
-            margin-top: 2.5rem;
-
-            &:hover .content-title .fa {
-                display: inline-block;
-            }
-
-            .icon {
-                flex: 2;
-                margin: 0.4rem;
-                text-align: center;
-
-                .fa {
-                    font-size: 5rem;
-                    color: rgba(5, 108, 5, 0.639);
-                }
-            }
-
-            .content {
-                flex: 6;
-                border-bottom: 2px solid $mainGrey;
-                padding-bottom: 1rem;
-
-                &-title {
-                    display: flex;
-                    justify-content: space-between;
-                    color: $mainDark;
-                    font-size: 1.2rem;
-                    margin-bottom: 0.3rem;
-
-                    .fa {
-                        color: $mainOrange;
-                        font-size: 1.4rem;
-                        display: none;
-                        cursor: pointer;
-
-                    }
-                }
-
-                &-body {
-                    font-size: 0.9rem;
-                    color: $mainGrey;
-                    line-height: 1.2;
-
-                    .job {
-                        &-title {
-                            color: $mainDark;
-                            font-size: 1rem;
-                        }
-
-                        &-summary {
-                            margin-top: 0.5rem;
-                            color: $mainDark;
-                            line-height: 1.2;
-                            width: 80%;
-                        }
-                    }
-                }
-            }
-        }
-    }
+.notify {
+  background: $mainLight;
+  font-weight: bold;
+  font-size: 1rem;
+  color: lighten($color: red, $amount: 10%);
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
 
 }
 
-@import 'mobile';
+.alert {
+  background: #fff;
+  color: #000;
+  align-items: center;
+}
+
+.errors {
+  background: #fff;
+  color: #000;
+
+  h5 {
+    font-size: 1.2rem;
+  }
+
+}
+
+.alert,
+.notify,
+.errors {
+  display: flex;
+  justify-content: flex-start;
+  z-index: 999;
+  width: auto;
+  min-width: 400px;
+  height: auto;
+  border-radius: 4px;
+  position: fixed;
+  left: 6%;
+  bottom: 5%;
+  // transform: translate(-50%, -5%);
+  padding: 0.7rem;
+  display: flex;
+  margin-top: 50%;
+  transform: translate(-121%, 0);
+  transition: all 0.5s linear;
+  opacity: 0;
+
+  div {
+    flex: 0.7;
+
+    .fa {
+      text-align: center;
+      margin-right: 0.5rem;
+    }
+
+    .fa-exclamation-circle {
+      font-size: 1.7rem;
+      color: $mainBlue;
+      padding-bottom: 50%;
+    }
+
+    .fa-check {
+      color: green;
+      padding-bottom: 20%;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  h5 {
+    flex: 9; // text-transform: uppercase;
+    font-size: 1rem;
+  }
+}
+
+.error_ {
+  &page {
+    background: url("../img/2157.png") center center/cover;
+    color: #fff;
+    width: 100%;
+    height: 100vh;
+    // max-width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+
+    &::after {
+      content: "";
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      background: rgba($color: #000000, $alpha: 0.8);
+      z-index: 1;
+    }
+  }
+
+  &nav {
+    display: flex;
+    justify-content: space-between;
+    // margin-top: 50px;
+    margin: 50px auto 0;
+    max-width: 1100px;
+    width: 90%;
+
+    h1 {
+      font-weight: bold;
+      font-size: 1.5rem;
+      z-index: 3;
+    }
+
+    select {
+      height: 30px;
+      width: 200px;
+      border: 1px solid $mainGrey;
+      background: none;
+      padding: 0.2rem 0.7rem;
+      color: #fff;
+      z-index: 3;
+    }
+  }
+
+  &body {
+    height: 80%;
+    @include flex;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      z-index: 3;
+    }
+
+    p {
+      font-size: 1.2rem;
+      z-index: 3;
+
+      a {
+        color: $mainBlue;
+        font-weight: bold;
+        font-size: 1.5;
+        cursor: pointer;
+      }
+    }
+
+    a {
+      z-index: 3;
+
+      button {
+        margin-top: 1rem;
+
+        &:hover {
+          color: $mainLight;
+          border: 2px solid $mainLight;
+          // background: $mainGrey;
+        }
+      }
+    }
+  }
+}
+
+.showItem {
+  // display: block;
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+@import "mobile";

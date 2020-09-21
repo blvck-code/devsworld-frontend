@@ -1,17 +1,36 @@
-import { MY_EDUCATION, ADD_EDUCATION } from "./types";
+import {
+  MY_EDUCATION,
+  ADD_EDUCATION,
+  GET_ERRORS,
+  DEV_EDUCATION,
+} from "./types";
 import axios from "axios";
 import { tokenConfig } from "./auth";
+import { createMessage } from "./messages";
 
 // MY EDUCATION
 export const myEduct = () => (dispatch, getState) => {
   axios
     .get(
-      "http://127.0.0.1:8000/api/education/user-education",
+      "https://devsworld-backend.herokuapp.com/api/education/user-education",
       tokenConfig(getState)
     )
     .then((res) => {
       dispatch({
         type: MY_EDUCATION,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log("ERROR", err));
+};
+
+// DEVELOPER EDUCATION
+export const devEduct = (slug) => (dispatch, getState) => {
+  axios
+    .get(`https://devsworld-backend.herokuapp.com/api/education${slug}`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DEV_EDUCATION,
         payload: res.data,
       });
     })
@@ -38,7 +57,7 @@ export const addEduct = ({
 
   axios
     .post(
-      "http://127.0.0.1:8000/api/education/create",
+      "https://devsworld-backend.herokuapp.com/api/education/create",
       body,
       tokenConfig(getState)
     )
@@ -47,6 +66,16 @@ export const addEduct = ({
         type: ADD_EDUCATION,
         payload: res.data,
       });
+      dispatch(createMessage({ eduAdded: "Education Added" }));
     })
-    .catch((err) => console.log("ERROR", err));
+    .catch((err) => {
+      const error = {
+        msg: err.response.data,
+        status: err.response.status,
+      };
+      dispatch({
+        type: GET_ERRORS,
+        payload: error,
+      });
+    });
 };

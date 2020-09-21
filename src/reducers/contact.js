@@ -1,36 +1,36 @@
 import {
-  MY_EDUCATION,
-  ADD_EDUCATION,
+  MY_CONTACT,
+  UPDATE_CONTACT,
   LOGOUT_SUCCESS,
-  DEV_EDUCATION,
+  DEV_CONTACT,
 } from "../actions/types";
 
 const initialState = {
-  myEdu: [],
-  devEdu: [],
+  myContact: {},
+  devContact: {},
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case MY_EDUCATION:
+    case MY_CONTACT:
       return {
         ...state,
-        myEdu: action.payload,
+        myContact: action.payload,
       };
-    case DEV_EDUCATION:
+    case UPDATE_CONTACT:
       return {
         ...state,
-        devEdu: action.payload,
+        myContact: action.payload,
       };
-    case ADD_EDUCATION:
+    case DEV_CONTACT:
       return {
         ...state,
-        myEdu: [...state.myEdu, action.payload],
+        devContact: action.payload,
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        myEdu: [],
+        myContact: {},
       };
     default:
       return state;

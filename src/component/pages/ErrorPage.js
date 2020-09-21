@@ -1,14 +1,31 @@
 import React from "react";
-import { Navbar } from "../layouts/Navbar";
+import { Link } from "react-router-dom";
 
 function ErrorPage(props) {
   console.log(props);
 
   return (
-    <>
-      <h1 style={{ color: "white" }}>Error Page</h1>
-      <p style={{ color: "white" }}>{props.location.pathname}</p>
-    </>
+    <div className="error_page">
+      <div className="error_nav">
+        <h1>DevsWorld KE</h1>
+        <select>
+          <option>English (English)</option>
+        </select>
+      </div>
+      <div className="error_body">
+        <h1>Page not found</h1>
+        <p>
+          Uh ho, we can't seem to find the page that you are looking for{" "}
+          <strong>"{props.location.pathname}"</strong>.
+          <br />
+          Try going back to the previous page or <br />
+          <Link to="/">Home Page</Link>.
+        </p>
+        <Link to="/dashboard">
+          <button className="btn btn-dark">Go to your feed</button>
+        </Link>
+      </div>
+    </div>
   );
 }
 

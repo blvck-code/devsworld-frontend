@@ -1,20 +1,40 @@
 import React, { Component } from "react";
 import { Navbar } from "../layouts/Navbar";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 export class HomePage extends Component {
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
-  };
-
   render() {
-    if (this.props.auth.isAuthenticated && this.props.auth.token) {
+    const { isAuthenticated, token } = this.props.auth;
+    if (isAuthenticated && token) {
       return <Redirect to="/dashboard" />;
     }
+
     return (
-      <>
+      <div className='homepage'>
+        <nav className="navbar bg-dark">
+          <div className="wrapper">
+            <div className="logo orange">
+              <Link to="/">
+                <h1>
+                  <i className="fa fa-code"></i> DevsWorld{" "}
+                </h1>
+              </Link>
+            </div>
+            <ul>
+              <li>
+                <NavLink to="/developers">Developer</NavLink>
+              </li>
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
+              <li>
+                <NavLink to="/register">Register</NavLink>
+              </li>
+            </ul>
+          </div>
+        </nav>
         <section className="landing">
           <div className="overlay">
             <div className="showcase-inner">
@@ -34,7 +54,7 @@ export class HomePage extends Component {
             </div>
           </div>
         </section>
-      </>
+      </div>
     );
   }
 }
@@ -43,4 +63,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, {})(HomePage);

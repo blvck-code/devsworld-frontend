@@ -5,15 +5,12 @@ import PropTypes from "prop-types";
 
 export class Education extends Component {
   state = {
-    activeItem: {
-      school: "",
-      degree: "",
-      study_field: "",
-      start: "",
-      end: "",
-      description: "",
-    },
-    update: false,
+    school: "",
+    degree: "",
+    study_field: "",
+    start: "",
+    end: "",
+    description: "",
   };
 
   componentDidMount() {
@@ -27,15 +24,12 @@ export class Education extends Component {
 
   resetState = () => {
     this.setState({
-      activeItem: {
-        school: "",
-        degree: "",
-        study_field: "",
-        start: "",
-        end: "",
-        description: "",
-      },
-      update: false,
+      school: "",
+      degree: "",
+      study_field: "",
+      start: "",
+      end: "",
+      description: "",
     });
   };
 
@@ -54,28 +48,18 @@ export class Education extends Component {
     }
   };
 
-  onChange = (e) =>
-    this.setState({ activeItem: { [e.target.name]: e.target.value } });
-  updateEdu = (item) => {
-    document.getElementById("eduModal").style.display = "block";
-    this.setState({
-      activeItem: item,
-      update: true,
-    });
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
 
     // Submits to server
-    if (this.state.update) {
-      console.log(this.state);
-      this.resetState();
-    } else {
-      this.props.addEduct(this.state);
-      this.resetState();
-      console.log(this.state);
-    }
+    this.props.addEduct(this.state);
+
+    this.resetState();
+    this.closeModal();
 
     // Refresh the page
     this.props.myEduct();
@@ -84,15 +68,7 @@ export class Education extends Component {
   render() {
     const { edu } = this.props;
 
-    const {
-      school,
-      degree,
-      study_field,
-      start,
-      end,
-      description,
-    } = this.state.activeItem;
-    const { update } = this.state;
+    const { school, degree, study_field, start, end, description } = this.state;
 
     window.addEventListener("click", this.clickOutside);
 
@@ -102,7 +78,7 @@ export class Education extends Component {
           <div className="modal-content">
             <form type="post" onSubmit={this.onSubmit}>
               <div className="modal-title">
-                {update ? <h2>Edit education</h2> : <h2>Add education</h2>}
+                <h2>Add education</h2>
                 <h1>
                   <i className="fa fa-close" onClick={this.closeModal}></i>
                 </h1>
@@ -145,32 +121,9 @@ export class Education extends Component {
                       </label>
                       <div className="dateInput">
                         <select
-                          data-control-name="edit_position_start_date_month"
-                          name="startMonth"
-                          id="position-start-month"
-                          class="ember-view"
-                        >
-                          {" "}
-                          <option value="">Month</option>
-                          <option value="1">January</option>
-                          <option value="2">February</option>
-                          <option value="3">March</option>
-                          <option value="4">April</option>
-                          <option value="5">May</option>
-                          <option value="6">June</option>
-                          <option value="7">July</option>
-                          <option value="8">August</option>
-                          <option value="9">September</option>
-                          <option value="10">October</option>
-                          <option value="11">November</option>
-                          <option value="12">December</option>
-                        </select>
-
-                        <select
-                          data-control-name="edit_position_start_date_year"
-                          name="startYear"
-                          id="position-start-year"
-                          class="ember-view"
+                          name="start"
+                          value={start}
+                          onChange={this.onChange}
                         >
                           {" "}
                           <option value="">Year</option>
@@ -238,38 +191,9 @@ export class Education extends Component {
                       </div>
                     </div>
                     <div className="endYear">
-                      <label htmlFor="end">
-                        End Year <span>*</span>
-                      </label>
+                      <label htmlFor="end">End Year</label>
                       <div className="dateInput">
-                        <select
-                          data-control-name="edit_position_start_date_month"
-                          name="startMonth"
-                          id="position-start-month"
-                          class="ember-view"
-                        >
-                          {" "}
-                          <option value="">Month</option>
-                          <option value="1">January</option>
-                          <option value="2">February</option>
-                          <option value="3">March</option>
-                          <option value="4">April</option>
-                          <option value="5">May</option>
-                          <option value="6">June</option>
-                          <option value="7">July</option>
-                          <option value="8">August</option>
-                          <option value="9">September</option>
-                          <option value="10">October</option>
-                          <option value="11">November</option>
-                          <option value="12">December</option>
-                        </select>
-
-                        <select
-                          data-control-name="edit_position_start_date_year"
-                          name="startYear"
-                          id="position-start-year"
-                          class="ember-view"
-                        >
+                        <select name="end" value={end} onChange={this.onChange}>
                           {" "}
                           <option value="">Year</option>
                           <option value="2020">2020</option>

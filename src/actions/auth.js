@@ -1,4 +1,5 @@
 import axios from "axios";
+import url from './url'
 import {
   USER_LOADED,
   USER_LOADING,
@@ -8,9 +9,15 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_ERROR,
-  MY_PROFILE,
+  VALIDATE_EMAIL,
+  VALIDATE_FIRSTNAME,
+  VALIDATE_LASTNAME,
+  VALIDATE_PASSWORD,
+  CONFIRM_PASSWORD,
 } from "./types";
-import { myProfile } from "./profiles";
+import { createMessage } from "./messages";
+
+const baseUrl = 'https://devsworld-backend.herokuapp.com'
 
 // GET USER
 export const getUser = () => (dispatch, getState) => {
@@ -18,8 +25,9 @@ export const getUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get("http://127.0.0.1:8000/api/auth/user", tokenConfig(getState))
+    .get( `${baseUrl}/api/auth/user`, tokenConfig(getState))
     .then((res) => {
+      // dispatch(createMessage({ loginError: res.data }));
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -43,34 +51,42 @@ export const login = (email, password) => (dispatch) => {
   const body = JSON.stringify({ email, password });
 
   axios
-    .post("http://127.0.0.1:8000/api/auth/login", body, config)
+    .post(`${baseUrl}/api/auth/login`, body, config)
     .then((res) => {
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
       });
-    })
-    .catch((err) => {
-      dispatch({
-        type: LOGIN_ERROR,
-      });
     });
+  dispatch({
+    type: LOGIN_ERROR,
+  });
 };
 
 // REGISTER
-export const register = ({ email, first_name, last_name, password, password2 }) => (
-  dispatch
-) => {
+export const register = ({
+  email,
+  first_name,
+  last_name,
+  password,
+  password2,
+}) => (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  const body = JSON.stringify({ email, first_name, last_name, password, password2 });
+  const body = JSON.stringify({
+    email,
+    first_name,
+    last_name,
+    password,
+    password2,
+  });
 
   axios
-    .post("http://127.0.0.1:8000/api/auth/register", body, config)
+    .post(`${baseUrl}/api/auth/register`, body, config)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -87,7 +103,7 @@ export const register = ({ email, first_name, last_name, password, password2 }) 
 // LOG OUT
 export const logout = () => (dispatch, getState) => {
   axios
-    .post("http://127.0.0.1:8000/api/auth/logout", null, tokenConfig(getState))
+    .post(`${baseUrl}/api/auth/logout`, null, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: LOGOUT_SUCCESS,
@@ -98,6 +114,113 @@ export const logout = () => (dispatch, getState) => {
         type: AUTH_ERROR,
       });
     });
+};
+
+// VALIDATE EMAIL
+export const validateEmail = (email) => (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ email });
+
+  axios
+    .post(`${baseUrl}/api/auth/validate-email`, body, config)
+    .then((res) => {
+      dispatch({
+        type: VALIDATE_EMAIL,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log("ERROR", err));
+};
+
+// VALIDATE FIRSTNAME
+export const validateFirstname = (first_name) => (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ first_name });
+
+  axios
+    .post(`${baseUrl}/api/auth/validate-firstname`, body, config)
+    .then((res) => {
+      dispatch({
+        type: VALIDATE_FIRSTNAME,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log("ERROR", err));
+};
+
+// VALIDATE LASTNAME
+export const validateLastname = (last_name) => (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ last_name });
+
+  axios
+    .post(`${baseUrl}/api/auth/validate-lastname`, body, config)
+    .then((res) => {
+      dispatch({
+        type: VALIDATE_LASTNAME,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log("ERROR", err));
+};
+
+// VALIDATE PASSWORD
+export const validatePassword = (password) => (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ password });
+
+  axios
+    .post(`${baseUrl}/api/auth/validate-password`, body, config)
+    .then((res) => {
+      dispatch({
+        type: VALIDATE_PASSWORD,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log("ERROR", err));
+};
+
+// VALIDATE PASSWORD
+export const confirmPassword = (password, password2) => (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ password, password2 });
+
+  axios
+    .post(`${baseUrl}/api/auth/confirm-password`, body, config)
+    .then((res) => {
+      console.log(res.data);
+
+      dispatch({
+        type: CONFIRM_PASSWORD,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log("ERROR", err));
 };
 
 // Helper function

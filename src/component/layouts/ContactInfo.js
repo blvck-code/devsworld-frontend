@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Spinner from "./Spinner";
+
 import EditContactModal from "./EditContactModal";
 
 export class ContactInfo extends Component {
@@ -13,13 +15,14 @@ export class ContactInfo extends Component {
 
   clickOutside = (e) => {
     this.update = false;
-    if (e.target == document.getElementById("contactModal")) {
+    if (e.target === document.getElementById("contactModal")) {
       document.getElementById("contactModal").style.display = "none";
     }
   };
 
   render() {
-    const { user } = this.props;
+    const { user, contact } = this.props;
+
     window.addEventListener("click", this.clickOutside);
 
     return (
@@ -58,51 +61,156 @@ export class ContactInfo extends Component {
           </div>
           <div className="modal-body">
             <div className="contactModal">
-              <div className="devsworld">
-                <div className="icon">
-                  <i className="fa fa-code"></i>
-                </div>
-                <div className="info">
-                  <h3>Your Profile</h3>
-                  {user ? <p>devsworld/in/{user.username}</p> : ""}
-                </div>
-              </div>
-              <div className="github">
-                <div className="icon">
-                  <i className="fa fa-github"></i>
-                </div>
-                <div className="info">
-                  <h3>Github</h3>
-                  <p>oluoch</p>
-                </div>
-              </div>
-              <div className="twitter">
-                <div className="icon">
-                  <i className="fa fa-twitter"></i>
-                </div>
-                <div className="info">
-                  <h3>Twitter</h3>
-                  <p>oluoch</p>
-                </div>
-              </div>
-              <div className="email">
-                <div className="icon">
-                  <i className="fa fa-envelope"></i>
-                </div>
-                <div className="info">
-                  <h3>Email</h3>
-                  {user ? <p>{user.email}</p> : ""}
-                </div>
-              </div>
-              <div className="dob">
-                <div className="icon">
-                  <i className="fa fa-birthday-cake"></i>
-                </div>
-                <div className="info">
-                  <h3>Birthday</h3>
-                  <p>November 25</p>
-                </div>
-              </div>
+              {!contact ? (
+                <>
+                  <Spinner />
+                  {this.props.myContact()}
+                </>
+              ) : (
+                <>
+                  {contact.devsworld ? (
+                    <>
+                      <div className="devsworld">
+                        <div className="icon">
+                          <i className="fa fa-code"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Your Profile</h3>
+                          <p>{contact.devsworld}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {contact.website_url ? (
+                    <>
+                      <div className="devsworld">
+                        <div className="icon">
+                          <i className="fa fa-globe"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Your website</h3>
+                          <p>
+                            {contact.website_url}{" "}
+                            {contact.website_url_type ? (
+                              <span>({contact.website_url_type})</span>
+                            ) : (
+                              ""
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {contact.github_username ? (
+                    <>
+                      <div className="github">
+                        <div className="icon">
+                          <i className="fa fa-github"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Github</h3>
+                          <p>{contact.github_username}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {contact.twitter_username ? (
+                    <>
+                      <div className="twitter">
+                        <div className="icon">
+                          <i className="fa fa-twitter"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Twitter</h3>
+                          <p>{contact.twitter_username}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {user ? (
+                    <>
+                      <div className="email">
+                        <div className="icon">
+                          <i className="fa fa-envelope"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Email</h3>
+                          <p>{user.email}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {contact.phone ? (
+                    <>
+                      <div className="github">
+                        <div className="icon">
+                          <i className="fa fa-mobile-phone"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Phone</h3>
+                          <p>
+                            {contact.phone}
+                            {contact.phone_type ? (
+                              <span>({contact.phone_type})</span>
+                            ) : (
+                              ""
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {contact.birthday ? (
+                    <>
+                      <div className="dob">
+                        <div className="icon">
+                          <i className="fa fa-birthday-cake"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Birthday</h3>
+                          <p>{contact.birthday}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  {contact.address ? (
+                    <>
+                      <div className="address">
+                        <div className="icon">
+                          <i className="fa fa-address-book"></i>
+                        </div>
+                        <div className="info">
+                          <h3>Address</h3>
+                          <p>{contact.address}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -113,6 +221,7 @@ export class ContactInfo extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  contact: state.contact.myContact,
 });
 
-export default connect(mapStateToProps)(ContactInfo);
+export default connect(mapStateToProps, {})(ContactInfo);

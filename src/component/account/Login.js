@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import Alerts from "../layouts/Alerts";
 
 export class Login extends Component {
   state = {
@@ -30,18 +31,18 @@ export class Login extends Component {
   render() {
     const { email, password } = this.state;
 
-    if (this.props.auth.isAuthenticated && this.props.auth.token) {
+    const { auth } = this.props;
+
+    if (auth.isAuthenticated && auth.token) {
       return <Redirect to="/dashboard" />;
     }
 
     return (
       <div className="sign-in">
+        <Alerts />
         <div className="left">
           <div className="logo">
-            <h1>
-              DevsWorld <span className="text-black">K</span>
-              <span className="text-red">E</span>
-            </h1>
+            <h1>DevsWorld</h1>
           </div>
           <form onSubmit={this.onSubmit} className="form">
             <div className="form-group">
@@ -85,6 +86,7 @@ export class Login extends Component {
               <Link to="#">Privacy Policy</Link>
             </div>
           </footer>
+          <div className="errors"></div>
         </div>
         <div className="right wrapper">
           <div className="overlay">
